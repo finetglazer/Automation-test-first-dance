@@ -17,8 +17,6 @@ class LoginPage(BasePage):
     PASSWORD_INPUT = (By.CSS_SELECTOR, "input[placeholder='Password']")
     REMEMBER_CHECKBOX = (By.CSS_SELECTOR, "input[type='checkbox']")
     LOGIN_BUTTON = (By.CSS_SELECTOR, "button[type='submit'], button:contains('LOGIN'), .login-btn, button.ui-button")
-    FORGOT_PASSWORD_LINK = (By.LINK_TEXT, "Forgot Password?")
-    REGISTER_LINK = (By.LINK_TEXT, "Register")
 
     # Alternative selectors in case the above don't work
     USERNAME_ALT = (By.NAME, "username")
@@ -27,9 +25,6 @@ class LoginPage(BasePage):
 
     # Error Messages
     ERROR_MESSAGE = (By.CSS_SELECTOR, ".error, .alert-danger, .notification-error")
-
-    # Loading/Success indicators
-    LOADING_SPINNER = (By.CSS_SELECTOR, ".spinner, .loading")
 
     def __init__(self, driver):
         super().__init__(driver)
@@ -41,9 +36,36 @@ class LoginPage(BasePage):
 
     def navigate_to_login_page(self, base_url="http://localhost"):
         """Navigate to the login page"""
-        self.driver.get(base_url)
-        self.wait_for_login_page_load()
-        return self
+        login_url = f"{base_url}/#/auth"
+
+        print(f"Navigating to login page: {login_url}")
+        self.driver.get(login_url)
+
+        # Wait for page to load
+        time.sleep(2)
+
+        # Verify login elements are present
+        if self._check_login_elements_present():
+            print("✅ Login page loaded successfully")
+            self.wait_for_login_page_load()
+            return self
+        else:
+            raise Exception("Login page loaded but login elements not found")
+
+    def _check_login_elements_present(self):
+        """Check if login form elements are present on the page"""
+        try:
+            # Check for username and password fields
+            username_present = (self.is_element_visible(self.USERNAME_INPUT, timeout=3) or
+                                self.is_element_visible(self.USERNAME_ALT, timeout=3))
+
+            password_present = (self.is_element_visible(self.PASSWORD_INPUT, timeout=3) or
+                                self.is_element_visible(self.PASSWORD_ALT, timeout=3))
+
+            return username_present and password_present
+
+        except Exception:
+            return False
 
     def wait_for_login_page_load(self):
         """Wait for the login page to fully load"""
@@ -57,8 +79,8 @@ class LoginPage(BasePage):
             )
             time.sleep(1)  # Small delay for page to stabilize
         except TimeoutException:
-            print("Login page did not load properly")
-            raise Exception("Failed to load login page")
+            print("Login page elements did not load properly")
+            raise Exception("Failed to load login page elements")
 
     # =======================
     # LOGIN METHODS
@@ -66,14 +88,12 @@ class LoginPage(BasePage):
 
     def enter_username(self, username):
         """Enter username in the username field"""
-        # Try primary selector first, then alternative
         if not self.enter_text(self.USERNAME_INPUT, username):
             return self.enter_text(self.USERNAME_ALT, username)
         return True
 
     def enter_password(self, password):
         """Enter password in the password field"""
-        # Try primary selector first, then alternative
         if not self.enter_text(self.PASSWORD_INPUT, password):
             return self.enter_text(self.PASSWORD_ALT, password)
         return True
@@ -84,7 +104,6 @@ class LoginPage(BasePage):
 
     def click_login_button(self):
         """Click the login button"""
-        # Try primary selector first, then alternative
         if not self.click_element(self.LOGIN_BUTTON):
             return self.click_element(self.LOGIN_BUTTON_ALT)
         return True
@@ -94,11 +113,10 @@ class LoginPage(BasePage):
         try:
             print(f"Attempting to login with username: {username}")
 
-            # Enter username
+            # Enter credentials
             if not self.enter_username(username):
                 raise Exception("Failed to enter username")
 
-            # Enter password
             if not self.enter_password(password):
                 raise Exception("Failed to enter password")
 
@@ -110,33 +128,32 @@ class LoginPage(BasePage):
             if not self.click_login_button():
                 raise Exception("Failed to click login button")
 
-            # Wait for login to complete (page should change)
+            # Wait for login to complete
             self.wait_for_login_success()
 
-            print("Login successful!")
+            print("✅ Login successful!")
             return True
 
         except Exception as e:
-            print(f"Login failed: {str(e)}")
+            print(f"❌ Login failed: {str(e)}")
             return False
 
     def wait_for_login_success(self, timeout=10):
         """Wait for successful login (page navigation away from login)"""
         try:
-            # Wait for URL to change (indicating successful login)
+            # Wait for URL to change away from auth page
             WebDriverWait(self.driver, timeout).until(
-                lambda driver: "login" not in driver.current_url.lower() and
-                               driver.current_url != self.driver.current_url
+                lambda driver: "auth" not in driver.current_url.lower()
             )
             time.sleep(2)  # Additional wait for page to stabilize
             return True
         except TimeoutException:
-            # Check if we're still on login page due to error
+            # Check if there's an error message
             if self.is_error_displayed():
                 error_msg = self.get_error_message()
                 raise Exception(f"Login failed with error: {error_msg}")
             else:
-                print("Login may have succeeded but page didn't change as expected")
+                print("⚠️ Login may have succeeded but URL didn't change as expected")
                 return True
 
     # =======================

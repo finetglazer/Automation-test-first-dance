@@ -17,8 +17,8 @@ class HomePage(BasePage):
         # Nebular UI specific selectors (try these first for speed)
         (By.CSS_SELECTOR, "nb-action[nbcontextmenutag='language']"),
         (By.CSS_SELECTOR, "nb-action.context-menu-host"),
-        (By.XPATH, "//nb-action[contains(text(), 'Languages')]"),
-        (By.XPATH, "//nb-action[contains(text(), 'English') or contains(text(), 'Français')]"),
+        (By.XPATH, "//nb-action[contains(text(), 'Languages') or contains(text(), 'Langues')]"),
+        (By.XPATH, "//nb-action[contains(text(), 'English') or contains(text(), 'Français') or contains(text(), 'Anglais')]"),
         # Standard selectors as fallback
         (By.CSS_SELECTOR, "select[name='language']"),
         (By.CSS_SELECTOR, ".language-selector"),
@@ -32,13 +32,13 @@ class HomePage(BasePage):
     LANGUAGE_BUTTON = (By.CSS_SELECTOR, "nb-action[nbcontextmenutag='language']")
     LANGUAGE_CURRENT = (By.CSS_SELECTOR, "nb-action[nbcontextmenutag='language']")
 
-    # Language options
-    ENGLISH_OPTION = (By.XPATH, "//option[contains(text(), 'English') or @value='en' or @value='EN']")
+    # Language options - ENHANCED with French translations
+    ENGLISH_OPTION = (By.XPATH, "//option[contains(text(), 'English') or contains(text(), 'Anglais') or @value='en' or @value='EN']")
     FRENCH_OPTION = (By.XPATH, "//option[contains(text(), 'Français') or contains(text(), 'French') or @value='fr' or @value='FR']")
 
-    # Alternative language selectors
-    LANGUAGE_LINK_EN = (By.XPATH, "//a[contains(text(), 'English') or contains(text(), 'EN')]")
-    LANGUAGE_LINK_FR = (By.XPATH, "//a[contains(text(), 'Français') or contains(text(), 'French') or contains(text(), 'FR')]")
+    # Alternative language selectors - ENHANCED
+    LANGUAGE_LINK_EN = (By.XPATH, "//a[contains(text(), 'English') or contains(text(), 'Anglais') or contains(text(), 'EN') or @title='Anglais']")
+    LANGUAGE_LINK_FR = (By.XPATH, "//a[contains(text(), 'Français') or contains(text(), 'French') or contains(text(), 'FR') or @title='Français']")
 
     # HOME PAGE DETECTION - Enhanced with multiple strategies
     HOME_PAGE_INDICATORS = [
@@ -240,8 +240,8 @@ class HomePage(BasePage):
                 lang_text = nebular_lang.text.strip()
                 print(f"Language detected from Nebular component: {lang_text}")
 
-                # Parse the text format: "Languages - (English)" or "Languages - (Français)"
-                if "English" in lang_text:
+                # Parse the text format: "Languages - (English)" or "Langues - (Français)"
+                if "English" in lang_text or "Anglais" in lang_text:
                     return "English"
                 elif "Français" in lang_text or "French" in lang_text:
                     return "French"
@@ -269,8 +269,8 @@ class HomePage(BasePage):
                 return lang
 
             # Strategy 4: Analyze page content for language indicators (quick check)
-            french_indicators = ["Français", "Accueil", "Produits", "Gestion", "Déconnexion"]
-            english_indicators = ["English", "Home", "Products", "Management", "Logout"]
+            french_indicators = ["Français", "Accueil", "Produits", "Gestion", "Déconnexion", "Langues"]
+            english_indicators = ["English", "Home", "Products", "Management", "Logout", "Languages"]
 
             # Quick DOM text check instead of full page source
             try:
@@ -304,7 +304,7 @@ class HomePage(BasePage):
     def is_english_language(self):
         """Enhanced English language detection"""
         current_lang = self.get_current_language()
-        is_english = "english" in current_lang.lower()
+        is_english = "english" in current_lang.lower() or "anglais" in current_lang.lower()
         print(f"Is English language: {is_english}")
         return is_english
 
@@ -355,23 +355,39 @@ class HomePage(BasePage):
                 nebular_lang.click()
                 time.sleep(2)  # Wait for context menu to appear
 
-                # Look for English option in the opened menu
+                # ENHANCED: Look for English option with multiple locators including "Anglais"
                 english_options = [
+                    # Look for "Anglais" (French for English)
+                    (By.XPATH, "//a[contains(text(), 'Anglais')]"),
+                    (By.XPATH, "//span[contains(text(), 'Anglais')]"),
+                    (By.CSS_SELECTOR, "a[title='Anglais']"),
+                    (By.XPATH, "//a[@title='Anglais']"),
+                    # Original English options
                     (By.XPATH, "//nb-menu-item[contains(text(), 'English')]"),
                     (By.XPATH, "//li[contains(text(), 'English')]"),
                     (By.XPATH, "//*[contains(text(), 'English') and contains(@class, 'menu')]"),
-                    (By.CSS_SELECTOR, "nb-menu-item"),  # Try any menu item
-                    (By.CSS_SELECTOR, ".menu-item"),
                     (By.XPATH, "//button[contains(text(), 'English')]"),
-                    (By.XPATH, "//a[contains(text(), 'English')]")
+                    (By.XPATH, "//a[contains(text(), 'English')]"),
+                    # Generic menu items
+                    (By.CSS_SELECTOR, "nb-menu-item"),
+                    (By.CSS_SELECTOR, ".menu-item"),
+                    (By.CSS_SELECTOR, "a.ng-star-inserted"),  # Based on your HTML structure
+                    (By.XPATH, "//a[contains(@class, 'ng-star-inserted')]")
                 ]
 
                 for option_locator in english_options:
                     try:
                         english_option = self.find_element(option_locator, timeout=2)
                         if english_option and english_option.is_displayed():
-                            # Check if it contains 'English' text
-                            if "english" in english_option.text.lower():
+                            option_text = english_option.text.lower()
+                            title_attr = english_option.get_attribute("title") or ""
+
+                            print(f"Found menu option: text='{option_text}', title='{title_attr}'")
+
+                            # Check if it contains 'English' or 'Anglais' text or title
+                            if ("english" in option_text or "anglais" in option_text or
+                                    "english" in title_attr.lower() or "anglais" in title_attr.lower()):
+                                print(f"Clicking English option: {option_locator}")
                                 english_option.click()
                                 time.sleep(3)
                                 print("✅ Selected English from Nebular menu")
@@ -380,23 +396,52 @@ class HomePage(BasePage):
                         print(f"English option not found with {option_locator}: {e}")
                         continue
 
-                # If no specific English option found, try clicking any available options
+                # ENHANCED: If no specific English option found, search through all menu items
                 try:
-                    all_menu_items = self.driver.find_elements(By.CSS_SELECTOR, "nb-menu-item, .menu-item, li")
-                    print(f"Found {len(all_menu_items)} menu items")
-                    for item in all_menu_items:
+                    print("Searching through all available menu items...")
+                    all_menu_selectors = [
+                        "nb-menu-item",
+                        ".menu-item",
+                        "li",
+                        "a.ng-star-inserted",
+                        "a[class*='ng-']",
+                        "span.menu-title"
+                    ]
+
+                    for selector in all_menu_selectors:
                         try:
-                            item_text = item.text.lower()
-                            print(f"Menu item text: '{item_text}'")
-                            if "english" in item_text or "en" == item_text:
-                                item.click()
-                                time.sleep(3)
-                                print("✅ Selected English from menu items")
-                                return True
-                        except:
+                            all_menu_items = self.driver.find_elements(By.CSS_SELECTOR, selector)
+                            print(f"Found {len(all_menu_items)} items with selector '{selector}'")
+
+                            for i, item in enumerate(all_menu_items):
+                                try:
+                                    item_text = item.text.strip().lower()
+                                    title_attr = item.get_attribute("title") or ""
+
+                                    if item_text or title_attr:
+                                        print(f"Menu item {i+1}: text='{item_text}', title='{title_attr}'")
+
+                                    # Look for English/Anglais in text or title
+                                    if (("english" in item_text or "anglais" in item_text) or
+                                            ("english" in title_attr.lower() or "anglais" in title_attr.lower())):
+                                        print(f"🎯 Found English option! Clicking item {i+1}")
+
+                                        # Scroll to element and click
+                                        self.driver.execute_script("arguments[0].scrollIntoView();", item)
+                                        time.sleep(0.5)
+                                        item.click()
+                                        time.sleep(3)
+                                        print("✅ Selected English from menu items")
+                                        return True
+                                except Exception as e:
+                                    print(f"Error with menu item {i+1}: {e}")
+                                    continue
+                        except Exception as e:
+                            print(f"Could not find menu items with selector '{selector}': {e}")
                             continue
+
                 except Exception as e:
-                    print(f"Could not find menu items: {e}")
+                    print(f"Could not search through menu items: {e}")
 
         except Exception as e:
             print(f"Nebular UI method failed: {e}")
@@ -413,7 +458,7 @@ class HomePage(BasePage):
                     dropdown.click()
                     time.sleep(1)
 
-                    # Select English option
+                    # Select English option (including Anglais)
                     english_option = self.find_element(self.ENGLISH_OPTION, timeout=3)
                     if english_option:
                         english_option.click()
@@ -451,7 +496,7 @@ class HomePage(BasePage):
                 lang_button.click()
                 time.sleep(1)
 
-                # Look for English option in dropdown/menu
+                # Look for English option in dropdown/menu (including Anglais)
                 english_option = self.find_element(self.ENGLISH_OPTION, timeout=3)
                 if english_option:
                     english_option.click()
@@ -470,7 +515,12 @@ class HomePage(BasePage):
             # Wait for page content to change or reload
             start_time = time.time()
             while time.time() - start_time < timeout:
-                if self.is_english_language():
+                current_lang = self.get_current_language()
+
+                # Check if language has changed to English (check for English indicators)
+                if ("english" in current_lang.lower() or
+                        "anglais" in current_lang.lower() or
+                        self._check_english_content_indicators()):
                     print("✅ Language successfully changed to English")
                     time.sleep(2)  # Stabilization time
                     return True
@@ -482,6 +532,31 @@ class HomePage(BasePage):
         except Exception as e:
             print(f"Language change wait failed: {e}")
             return True  # Be lenient
+
+    def _check_english_content_indicators(self):
+        """Check if page content indicates English language"""
+        try:
+            # Look for English text indicators in the page
+            english_indicators = [
+                "Products",
+                "Home",
+                "Logout",
+                "Management",
+                "Dashboard",
+                "Settings"
+            ]
+
+            body_text = self.driver.find_element(By.TAG_NAME, "body").text
+
+            for indicator in english_indicators:
+                if indicator in body_text:
+                    print(f"Found English indicator: {indicator}")
+                    return True
+
+        except Exception as e:
+            print(f"Could not check English content indicators: {e}")
+
+        return False
 
     # =======================
     # NAVIGATION TO PRODUCTS - Enhanced
@@ -582,6 +657,67 @@ class HomePage(BasePage):
         except Exception as e:
             print(f"Menu navigation method failed: {e}")
         return False
+
+    # =======================
+    # DEBUG METHODS - Enhanced
+    # =======================
+
+    def debug_language_menu(self):
+        """Debug method to analyze language menu options"""
+        try:
+            print("🔍 DEBUGGING LANGUAGE MENU:")
+
+            # First, click the language selector to open menu
+            nebular_lang = self.find_element((By.CSS_SELECTOR, "nb-action[nbcontextmenutag='language']"), timeout=3)
+            if nebular_lang:
+                print("Opening language menu...")
+                nebular_lang.click()
+                time.sleep(2)
+
+                # Find all possible menu items
+                selectors_to_try = [
+                    "a",
+                    "li",
+                    "span",
+                    "div",
+                    "nb-menu-item",
+                    ".menu-item",
+                    "[class*='menu']",
+                    "[class*='ng-']"
+                ]
+
+                for selector in selectors_to_try:
+                    try:
+                        elements = self.driver.find_elements(By.CSS_SELECTOR, selector)
+                        visible_elements = [elem for elem in elements if elem.is_displayed()]
+
+                        if visible_elements:
+                            print(f"\nFound {len(visible_elements)} visible '{selector}' elements:")
+
+                            for i, elem in enumerate(visible_elements[:20]):  # Limit output
+                                try:
+                                    text = elem.text.strip()
+                                    title = elem.get_attribute("title") or ""
+                                    classes = elem.get_attribute("class") or ""
+
+                                    if text or title:
+                                        print(f"  {i+1}: text='{text}', title='{title}', classes='{classes[:50]}...'")
+
+                                        # Highlight potential language options
+                                        if any(word in (text + title).lower() for word in ['english', 'anglais', 'français', 'french']):
+                                            print(f"    ⭐ POTENTIAL LANGUAGE OPTION!")
+
+                                except Exception as e:
+                                    print(f"  {i+1}: Error reading element - {e}")
+
+                    except Exception as e:
+                        print(f"No elements found for selector '{selector}': {e}")
+
+                # Take screenshot of the open menu
+                self.take_screenshot("language_menu_debug")
+
+        except Exception as e:
+            print(f"Language menu debug failed: {e}")
 
     # =======================
     # UTILITY METHODS

@@ -4,19 +4,26 @@ from selenium.webdriver.common.keys import Keys
 from pages.products_page import ProductsPage
 
 class TestProductsPageFiltering:
-    """Test suite for Products page filtering and search functionality"""
+    """Test suite for Products page filtering and search functionality with authentication"""
 
     @pytest.fixture(autouse=True)
-    def setup(self, driver):
-        """Setup method to navigate to products page before each test"""
-        self.products_page = ProductsPage(driver)
-        self.products_page.navigate_to_products_page()
+    def setup(self, products_page_ready):
+        """Setup method using authenticated driver and navigate to products page"""
+        self.driver = products_page_ready
+        self.products_page = ProductsPage(self.driver)
+
+        # Ensure we're on the products page and authenticated
+        success = self.products_page.ensure_authenticated_and_navigate()
+        if not success:
+            pytest.fail("Failed to setup authenticated products page")
+
         # Clear any existing filters
         self.products_page.clear_all_search_fields()
+        print("✓ Products page setup completed")
 
     @pytest.mark.smoke
     def test_page_loads_successfully(self):
-        """Test that products page loads with all expected elements"""
+        """Test that products page loads with all expected elements after authentication"""
         # Verify key elements are present
         assert self.products_page.is_element_visible(self.products_page.SKU_SEARCH_INPUT), \
             "SKU search field should be visible"
@@ -24,6 +31,9 @@ class TestProductsPageFiltering:
             "Product name search field should be visible"
         assert self.products_page.is_element_visible(self.products_page.CREATE_PRODUCT_BTN), \
             "Create product button should be visible"
+
+        # Take screenshot to verify page loaded correctly
+        self.products_page.take_products_screenshot("page_loaded_successfully")
 
     @pytest.mark.regression
     def test_special_character_input_sku_field(self):
@@ -252,12 +262,13 @@ class TestProductsPageFiltering:
 
 
 class TestProductsPageToggle:
-    """Test suite for toggle functionality"""
+    """Test suite for toggle functionality with authentication"""
 
     @pytest.fixture(autouse=True)
-    def setup(self, driver):
-        self.products_page = ProductsPage(driver)
-        self.products_page.navigate_to_products_page()
+    def setup(self, products_page_ready):
+        self.driver = products_page_ready
+        self.products_page = ProductsPage(self.driver)
+        self.products_page.ensure_authenticated_and_navigate()
 
     @pytest.mark.ui
     def test_available_toggle_functionality(self):
@@ -266,16 +277,10 @@ class TestProductsPageToggle:
         table_data = self.products_page.get_table_data()
 
         if table_data:
-            # Step 1: Click toggle when empty/unchecked
-            initial_state = self.products_page._is_checkbox_checked(
-                self.products_page.find_elements(self.products_page.TABLE_ROWS)[0]
-                .find_elements(By.TAG_NAME, "td")[4]
-            )
-
             # Click the toggle
             self.products_page.click_available_toggle(0)
 
-            # Step 2: Click again
+            # Click again
             self.products_page.click_available_toggle(0)
 
             # Expected result: Toggle shows ✅ first click, then unchecked second click
@@ -285,12 +290,13 @@ class TestProductsPageToggle:
 
 
 class TestProductsPageSorting:
-    """Test suite for sorting functionality"""
+    """Test suite for sorting functionality with authentication"""
 
     @pytest.fixture(autouse=True)
-    def setup(self, driver):
-        self.products_page = ProductsPage(driver)
-        self.products_page.navigate_to_products_page()
+    def setup(self, products_page_ready):
+        self.driver = products_page_ready
+        self.products_page = ProductsPage(self.driver)
+        self.products_page.ensure_authenticated_and_navigate()
         self.products_page.clear_all_search_fields()
 
     @pytest.mark.smoke
@@ -409,12 +415,13 @@ class TestProductsPageSorting:
 
 
 class TestProductsPageReset:
-    """Test suite for reset functionality"""
+    """Test suite for reset functionality with authentication"""
 
     @pytest.fixture(autouse=True)
-    def setup(self, driver):
-        self.products_page = ProductsPage(driver)
-        self.products_page.navigate_to_products_page()
+    def setup(self, products_page_ready):
+        self.driver = products_page_ready
+        self.products_page = ProductsPage(self.driver)
+        self.products_page.ensure_authenticated_and_navigate()
 
     @pytest.mark.regression
     def test_page_reset_functionality(self):
@@ -440,3 +447,39 @@ class TestProductsPageReset:
         # Verify table shows all data
         table_data = self.products_page.get_table_data()
         assert len(table_data) > 0, "Table should show all data after reset"
+
+
+# Additional Authentication Tests
+class TestAuthentication:
+    """Test suite specifically for authentication flow"""
+
+    @pytest.mark.smoke
+    def test_login_flow(self, driver):
+        """Test the complete login flow"""
+        products_page = ProductsPage(driver)
+
+        # Test authentication and navigation
+        success = products_page.ensure_authenticated_and_navigate("http://localhost")
+        assert success, "Authentication and navigation should succeed"
+
+        # Verify we're on the products page
+        assert products_page._is_on_products_page(), "Should be on products page after authentication"
+        assert products_page._is_authenticated(), "Should be authenticated"
+
+    @pytest.mark.regression
+    def test_language_change(self, authenticated_driver):
+        """Test language change functionality"""
+        from pages.home_page import HomePage
+
+        home_page = HomePage(authenticated_driver)
+
+        # Check current language
+        current_lang = home_page.get_current_language()
+        print(f"Current language: {current_lang}")
+
+        # If French, change to English
+        if home_page.is_french_language():
+            success = home_page.change_language_to_english()
+            if success:
+                home_page.wait_for_language_change()
+                assert not home_page.is_french_language(), "Language should have changed from French"

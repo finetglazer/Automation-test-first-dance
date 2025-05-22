@@ -4,10 +4,12 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
 from pages.base_page import BasePage
+from pages.login_page import LoginPage
+from pages.home_page import HomePage
 import time
 
 class ProductsPage(BasePage):
-    """Page Object Model for Products List Page"""
+    """Page Object Model for Products List Page with Authentication Support"""
 
     # =======================
     # LOCATORS
@@ -47,24 +49,199 @@ class ProductsPage(BasePage):
         self.wait = WebDriverWait(driver, 15)
 
     # =======================
-    # NAVIGATION METHODS
+    # AUTHENTICATION & NAVIGATION METHODS
     # =======================
+
+    def ensure_authenticated_and_navigate(self, base_url="http://localhost", force_login=False):
+        """Ensure user is authenticated and navigate to products page"""
+        try:
+            print("\n" + "="*60)
+            print("ENSURING AUTHENTICATION AND NAVIGATION")
+            print("="*60)
+
+            # Check if we're already on the products page and authenticated
+            if not force_login and self._is_on_products_page() and self._is_authenticated():
+                print("✓ Already on products page and authenticated")
+                return True
+
+            # Step 1: Handle login if needed
+            if self._needs_login():
+                print("Login required, performing authentication...")
+                if not self._perform_full_authentication(base_url):
+                    return False
+
+            # Step 2: Navigate to products page
+            return self.navigate_to_products_page()
+
+        except Exception as e:
+            print(f"❌ Authentication and navigation failed: {str(e)}")
+            return False
+
+    def _needs_login(self):
+        """Check if login is needed"""
+        current_url = self.driver.current_url.lower()
+
+        # Check if we're on login page or if URL suggests we need to login
+        if ("login" in current_url or
+                current_url.endswith("/") or
+                "localhost" == current_url.replace("http://", "").replace("https://", "")):
+            return True
+
+        # Check if we can access authenticated content
+        try:
+            # Try to find authenticated page elements
+            authenticated_elements = [
+                (By.CSS_SELECTOR, ".sidebar"),
+                (By.CSS_SELECTOR, ".nav-sidebar"),
+                (By.XPATH, "//a[contains(text(), 'Products') or contains(text(), 'Produits')]")
+            ]
+
+            for element in authenticated_elements:
+                if self.is_element_visible(element, timeout=2):
+                    return False
+
+        except:
+            pass
+
+        return True
+
+    def _is_authenticated(self):
+        """Check if user is authenticated"""
+        try:
+            # Look for authenticated page indicators
+            authenticated_indicators = [
+                (By.CSS_SELECTOR, ".user-profile"),
+                (By.CSS_SELECTOR, ".admin-user"),
+                (By.XPATH, "//a[contains(text(), 'Logout')]"),
+                (By.CSS_SELECTOR, ".sidebar")
+            ]
+
+            for indicator in authenticated_indicators:
+                if self.is_element_visible(indicator, timeout=2):
+                    return True
+
+            return False
+
+        except:
+            return False
+
+    def _is_on_products_page(self):
+        """Check if currently on products page"""
+        try:
+            current_url = self.driver.current_url.lower()
+
+            # Check URL
+            if "products" in current_url and "list" in current_url:
+                return True
+
+            # Check for products page elements
+            products_indicators = [
+                self.SKU_SEARCH_INPUT,
+                self.PRODUCT_NAME_SEARCH_INPUT,
+                self.CREATE_PRODUCT_BTN
+            ]
+
+            for indicator in products_indicators:
+                if self.is_element_visible(indicator, timeout=2):
+                    return True
+
+            return False
+
+        except:
+            return False
+
+    def _perform_full_authentication(self, base_url):
+        """Perform complete authentication flow"""
+        try:
+            # Step 1: Login
+            login_page = LoginPage(self.driver)
+            login_page.navigate_to_login_page(base_url)
+
+            if not login_page.is_login_page_loaded():
+                raise Exception("Login page did not load")
+
+            login_success = login_page.perform_login(
+                username="admin@shopizer.com",
+                password="password"
+            )
+
+            if not login_success:
+                raise Exception("Login failed")
+
+            print("✓ Login successful")
+
+            # Step 2: Handle language change
+            home_page = HomePage(self.driver)
+            home_page.wait_for_home_page_load()
+
+            if home_page.is_french_language():
+                print("Changing language to English...")
+                if home_page.change_language_to_english():
+                    home_page.wait_for_language_change()
+                    print("✓ Language changed to English")
+                else:
+                    print("⚠ Could not change language")
+
+            return True
+
+        except Exception as e:
+            print(f"Authentication failed: {str(e)}")
+            return False
 
     def navigate_to_products_page(self):
         """Navigate to the products list page"""
-        self.driver.get("http://localhost/#/pages/catalogue/products/products-list")
-        self.wait_for_page_load()
-        return self
+        try:
+            print("Navigating to products page...")
+
+            # Method 1: Try direct URL (fastest)
+            self.driver.get("http://localhost/#/pages/catalogue/products/products-list")
+
+            # Wait for page to load
+            if self.wait_for_page_load():
+                print("✓ Successfully navigated to products page")
+                return True
+
+            # Method 2: Try menu navigation as fallback
+            print("Direct navigation failed, trying menu navigation...")
+            home_page = HomePage(self.driver)
+            if home_page.navigate_to_products_page():
+                if self.wait_for_page_load():
+                    print("✓ Successfully navigated via menu")
+                    return True
+
+            print("❌ Failed to navigate to products page")
+            return False
+
+        except Exception as e:
+            print(f"Navigation failed: {str(e)}")
+            return False
 
     def wait_for_page_load(self):
         """Wait for the products page to fully load"""
         try:
-            # Wait for the main table to be present
-            self.wait.until(EC.presence_of_element_located(self.SKU_SEARCH_INPUT))
-            # Small delay for Angular to finish rendering
-            time.sleep(1)
+            # Wait for key elements to be present
+            self.wait.until(
+                EC.any_of(
+                    EC.presence_of_element_located(self.SKU_SEARCH_INPUT),
+                    EC.presence_of_element_located(self.PRODUCT_NAME_SEARCH_INPUT)
+                )
+            )
+
+            # Additional wait for Angular to finish rendering
+            time.sleep(2)
+
+            # Verify we're actually on the products page
+            if self._is_on_products_page():
+                return True
+            else:
+                raise Exception("Not on products page after navigation")
+
         except TimeoutException:
-            print("Products page did not load properly")
+            print("Products page did not load within timeout")
+            return False
+        except Exception as e:
+            print(f"Page load verification failed: {str(e)}")
+            return False
 
     # =======================
     # SEARCH/FILTER METHODS
@@ -171,34 +348,6 @@ class ProductsPage(BasePage):
     # =======================
     # SORTING METHODS
     # =======================
-
-    def click_id_header(self):
-        """Click ID column header for sorting"""
-        return self.click_element(self.ID_HEADER)
-
-    def click_sku_header(self):
-        """Click SKU column header for sorting"""
-        return self.click_element(self.SKU_HEADER)
-
-    def click_product_name_header(self):
-        """Click Product Name column header for sorting"""
-        return self.click_element(self.PRODUCT_NAME_HEADER)
-
-    def click_qty_header(self):
-        """Click Quantity column header for sorting"""
-        return self.click_element(self.QTY_HEADER)
-
-    def click_price_header(self):
-        """Click Price column header for sorting"""
-        return self.click_element(self.PRICE_HEADER)
-
-    def click_available_header(self):
-        """Click Available column header for sorting"""
-        return self.click_element(self.AVAILABLE_HEADER)
-
-    def click_created_header(self):
-        """Click Created column header for sorting"""
-        return self.click_element(self.CREATED_HEADER)
 
     def get_sort_order(self, header_locator):
         """Get current sort order of a column (asc, desc, or none)"""
@@ -312,3 +461,7 @@ class ProductsPage(BasePage):
                 return True
 
         return False
+
+    def take_products_screenshot(self, filename="products_page"):
+        """Take screenshot of products page"""
+        return self.take_screenshot(filename)

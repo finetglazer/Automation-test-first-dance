@@ -221,5 +221,47 @@ def setup_test_environment():
         if not os.path.exists(directory):
             os.makedirs(directory)
 
+
+
+# Add this fixture to your existing conftest.py file
+
+@pytest.fixture(scope="function")
+def product_groups_page_ready(authenticated_driver):
+    """OPTIMIZED product groups page setup"""
+    from pages.home_page import HomePage
+
+    try:
+        home_page = HomePage(authenticated_driver)
+
+        print("🏷️ Quick product groups page setup...")
+
+        # Fast direct navigation to product groups page
+        authenticated_driver.get("http://localhost/#/pages/catalogue/products-groups/groups-list")
+
+        # Quick verification with shorter timeout
+        from selenium.webdriver.support.ui import WebDriverWait
+        from selenium.webdriver.support import expected_conditions as EC
+        from selenium.webdriver.common.by import By
+
+        try:
+            wait = WebDriverWait(authenticated_driver, 5)  # 5 seconds timeout
+            wait.until(
+                EC.any_of(
+                    EC.presence_of_element_located((By.CSS_SELECTOR, "input[placeholder='Code']")),
+                    EC.presence_of_element_located((By.CSS_SELECTOR, "a.createBtn"))
+                )
+            )
+            print("✓ Product groups page ready")
+        except:
+            print("⚠ Product groups page verification timeout (5s), continuing...")
+
+        return authenticated_driver
+
+    except Exception as e:
+        print(f"❌ Product groups page setup failed: {str(e)}")
+        raise
+
+
 # Run setup when conftest is loaded
 setup_test_environment()
+

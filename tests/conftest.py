@@ -1,3 +1,5 @@
+from datetime import time
+
 import pytest
 import sys
 import os
@@ -68,15 +70,16 @@ def authenticated_driver(driver, base_url):
 
         # OPTIMIZED STEP 3: Fast language change (if needed)
         if home_page.is_french_language():
-            print("🌐 Changing to English...")
+            print("🌐 Quick language change to English...")
 
             if home_page.change_language_to_english():
-                home_page.wait_for_language_change()
+                # Just a short wait since the method already waits
+                time.sleep(1)
                 print("✓ Language: English")
             else:
-                print("⚠ Language change skipped")
+                print("⚠ Language change skipped - continuing anyway")
         else:
-            print("✓ Language: Already English")
+            print("✓ Language: Already acceptable")
 
         print("="*50)
         print("✅ FAST SETUP COMPLETED")

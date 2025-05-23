@@ -1,8 +1,12 @@
-from datetime import time
+import time
 
 import pytest
 import sys
 import os
+# conftest.py
+import pytest
+from selenium.webdriver.support.ui import WebDriverWait
+
 
 # Add project root to Python path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -100,6 +104,20 @@ def authenticated_driver(driver, base_url):
 def driver_with_base_url(authenticated_driver, base_url):
     """Legacy compatibility fixture"""
     return authenticated_driver
+
+
+@pytest.fixture
+def product_types_page_ready(authenticated_driver):
+    """
+    Provides a WebDriver instance that is:
+    1. Already authenticated
+    2. Ready to run tests on the Product Types page
+    """
+    driver = authenticated_driver
+    wait = WebDriverWait(driver, 10)
+
+    # Return the authenticated driver for the test to use
+    return driver
 
 @pytest.fixture(scope="function")
 def products_page_ready(authenticated_driver):

@@ -52,30 +52,30 @@ class ProductsPage(BasePage):
     # AUTHENTICATION & NAVIGATION METHODS
     # =======================
 
-    # def ensure_authenticated_and_navigate(self, base_url="http://localhost", force_login=False):
-    #     """Ensure user is authenticated and navigate to products page"""
-    #     try:
-    #         print("\n" + "="*60)
-    #         print("ENSURING AUTHENTICATION AND NAVIGATION")
-    #         print("="*60)
-    #
-    #         # Check if we're already on the products page and authenticated
-    #         if not force_login and self._is_on_products_page() and self._is_authenticated():
-    #             print("✓ Already on products page and authenticated")
-    #             return True
-    #
-    #         # Step 1: Handle login if needed
-    #         if self._needs_login():
-    #             print("Login required, performing authentication...")
-    #             if not self._perform_full_authentication(base_url):
-    #                 return False
-    #
-    #         # Step 2: Navigate to products page
-    #         return self.navigate_to_products_page()
-    #
-    #     except Exception as e:
-    #         print(f"❌ Authentication and navigation failed: {str(e)}")
-    #         return False
+    def ensure_authenticated_and_navigate(self, base_url="http://localhost", force_login=False):
+        """Ensure user is authenticated and navigate to products page"""
+        try:
+            print("\n" + "="*60)
+            print("ENSURING AUTHENTICATION AND NAVIGATION")
+            print("="*60)
+
+            # Check if we're already on the products page and authenticated
+            if not force_login and self._is_on_products_page() and self._is_authenticated():
+                print("✓ Already on products page and authenticated")
+                return True
+
+            # Step 1: Handle login if needed
+            if self._needs_login():
+                print("Login required, performing authentication...")
+                if not self._perform_full_authentication(base_url):
+                    return False
+
+            # Step 2: Navigate to products page
+            return self.navigate_to_products_page()
+
+        except Exception as e:
+            print(f"❌ Authentication and navigation failed: {str(e)}")
+            return False
 
     def _needs_login(self):
         """Check if login is needed"""

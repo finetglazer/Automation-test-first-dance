@@ -86,7 +86,7 @@ BUTTONS:
 
 TEST SCENARIOS:
 ===============
-1. Submit special character into the field Sku and Product name
+1. Submit special character into the field Code
 
 "Step 1: We fill the Sku name and Product name field
 Step 2: We click Window + V
@@ -96,7 +96,7 @@ Step 4: Then, deleting above emoji, inserting '<', '+',..."
 Expected result: The table list still displays the special characters and the table shows no data found
 
 
-2. Submit valid text for existing Sku and Product name
+2. Submit valid text for existing Code name
 
 "Step 1: We fill the Sku name field
 Step 2: We fill one character in existed data"
@@ -110,7 +110,7 @@ Step 2: We fill one character in existed data"
 Expected res: The table list displays no data found
 
 
-4. Submit text with space at the beggining or ending
+4. Submit text with space at the beginning or ending
 
 Step 1: We fill space first
 Step 2: We fill the valid text next
@@ -133,20 +133,20 @@ Expected res: The table displays all data found
 
 Expected res: The table displays nothing, the text field still displays the part of the data
 
-8. Testing field visible when toggle
-"Step 1: We click into the toggle field when it is empty
+8. Testing field Active when toggle
+"Step 1: We click into the Active field when it is empty
 Step 2: After it is clicked, we click it again"
 
 Expected res: "The toggle shows ✅ at the first click, and show 🟦
 At the same time showing the ✅, a notification will be displayed"
 
 
-9. Testing sorting function ascending when click on each field column
+9. Testing sorting function ascending when click on each field column but Action field
 Step 1: Clicking into the fields one time orderly
 Expected res: The table list shows all ascending data corresponding with that field
 
 
-10. Testing sorting function descending when click on each field
+10. Testing sorting function descending when click on each field but Action field
 Step 1: Clicking into the fields orderly 2 times
 Expected res: The table list shows all data with the corresponding sorting field
 

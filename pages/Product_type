@@ -1,0 +1,140 @@
+PAGE INFO:
+==========
+Page Name: List of product types
+URL: http://localhost/#/pages/catalogue/types/types-list
+
+HTML SOURCE:
+============
+
+🔍 Table: (only name)
+<table _ngcontent-dka-c18="" id="">
+
+🔍 Fields to search
+- Code:
+<th class="ng2-smart-th code ng-star-inserted"><ng2-smart-table-filter _nghost-dka-c24=""><!----><div _ngcontent-dka-c24="" class="ng2-smart-filter ng-star-inserted"><!----><!----><default-table-filter _ngcontent-dka-c24="" class="ng-star-inserted"><!----><!----><!----><!----><!----><input-filter class="ng-star-inserted"><input class="form-control ng-untouched ng-pristine ng-valid" type="text" placeholder="Code"></input-filter></default-table-filter></div></ng2-smart-table-filter></th>
+
+
+🔍 TABLE Fields
+
+-Id:
+<th class="ng2-smart-th id ng-star-inserted"><ng2-st-column-title><div class="ng2-smart-title"><ng2-smart-table-title _nghost-dka-c25=""><!----><a _ngcontent-dka-c25="" class="ng2-smart-sort-link sort ng-star-inserted" href="#"> ID </a><!----></ng2-smart-table-title></div></ng2-st-column-title></th>
+
+- Code:
+<th class="ng2-smart-th code ng-star-inserted">
+<ng2-st-column-title>
+<div class="ng2-smart-title">
+<ng2-smart-table-title _nghost-dka-c25=""><!---->
+<a _ngcontent-dka-c25="" class="ng2-smart-sort-link sort ng-star-inserted" href="#"> Code </a>
+<!----></ng2-smart-table-title></div></ng2-st-column-title></th>
+
+- Merchant store:
+<th class="ng2-smart-th store ng-star-inserted"><ng2-st-column-title><div class="ng2-smart-title"><ng2-smart-table-title _nghost-dka-c25=""><!----><a _ngcontent-dka-c25="" class="ng2-smart-sort-link sort ng-star-inserted asc" href="#"> Merchant store </a><!----></ng2-smart-table-title></div></ng2-st-column-title></th>
+
+🔍 FILTER/SEARCH ELEMENTS:
+- "Merchant store" dropdown:
+<input aria-autocomplete="list" aria-haspopup="true" role="combobox" class="ng-tns-c20-48 ui-inputtext ui-widget ui-state-default ui-corner-all ui-autocomplete-input ng-star-inserted" type="text" autocomplete="off" name="merchant" aria-expanded="false" aria-activedescendant="p-highlighted-option" placeholder="Merchant store">
+<span class="ui-button-text ui-clickable">ui-btn</span>
+
+BUTTONS:
+- "Create product type" button:
+<a _ngcontent-dka-c15="" class="createBtn" href="#/pages/catalogue/types/create-type"><img _ngcontent-dka-c15="" alt="" class="pointer sda" src="../../../../assets/img/plus.png" title="Product types"><label _ngcontent-dka-c15="">Create product type</label></a>
+
+- Update symbol:
+<a class="ng2-smart-action ng2-smart-action-custom-custom ng-star-inserted" href="#"><i class="nb-edit"></i></a>
+
+
+- Delete symbol:
+<a class="ng2-smart-action ng2-smart-action-custom-custom ng-star-inserted" href="#"><i class="nb-trash"></i></a>
+
+
+TEST SCENARIOS:
+===============
+1. Submit special character into the field Code name
+
+"Step 1: We fill the Code name field
+Step 2: We click Window + V
+Step 3: We insert special character like 🥶🥶
+Step 4: Then, deleting above emoji, inserting '<', '+',..."
+
+Expected result: The table list still displays the special characters and the table shows nothing
+
+
+2. Submit valid text for existing Code name
+
+"Step 1: We fill the Code name field
+Step 2: We fill one character in existed data"
+
+Expected result: The table list displays the data which contains that character
+
+3. Submit text not existing for testing displaying nothing
+"Step 1: We fill the Code name field
+Step 2: We fill one character not existed data"
+
+Expected res: The table list displays no data found
+
+
+4. Submit text with space at the beginning or ending
+
+Step 1: We fill space first
+Step 2: We fill the valid text next
+Step 3: Deleting the space at the begging
+Step 4: Add the space at the end of the text"
+
+Expected res: The table list displays the data which contains that character
+
+5. Submit SQL/NoSQL injection, XSS attempts (<script>alert('test')</script>), HTML injection (<h1>test</h1>) to test security
+
+Expected res: Avoiding showing the data
+
+6. Submit nothing to test default value filter
+
+"Step 1: We fill nothing the Code name field
+
+Expected res: The table displays all data found
+
+
+7.Submit large value to test the large field
+"Step 1: We fill the large text into Code name field
+
+Expected res: The table displays nothing, the text field still displays the part of the data
+
+
+9. Testing sorting function ascending when click on each field column
+Step 1: Clicking into the fields one time orderly
+Expected res: The table list shows all ascending data corresponding with that field
+
+
+10. Testing sorting function descending when click on each field
+Step 1: Clicking into the fields orderly 2 times
+Expected res: The table list shows all data with the corresponding sorting field
+
+
+11. Testing sorting function default after excluding sorting function when click on each field
+Step 1: After clicking sorting, excluding the sorting
+Expected res: The table list shows all data with the default order
+
+
+12. Testing sorting table when sorting more than 2 fields (All two cases: asc, des)
+"Step 1: Clicking one field for sorting by that field
+Step 2: Clicking another field for sorting by 2 fields"
+Expected res: The table list shows all data sorting by 2 fields orderly
+
+
+13. Testing sorting function (both asc, and des) after submitting some existing character
+"Step 1: Filling in existed char in the field for filtering first
+Step 2: We click each field for sorting (asc, des) orderly"
+Expected res: The page shows the list of data containing that character with the order sorting by the field
+
+
+14. Testing sorting function (both asc, and des) before submitting some existing character
+"Step 1: Clicking each field for sorting (asc, des) orderly
+Step 2: Filling in existed char in the field for filtering"
+Expected res: The page shows the list of data containing that character with the order sorting by the field
+
+
+15. Testing state after reseting
+"Step 1: Adding the text field the existed data but must excluding some data for explicit viewing
+Step 2: Adding filter for one fields
+Step 3: Resetting the page"
+
+Expected res: The page return the default table list

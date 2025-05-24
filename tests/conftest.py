@@ -106,18 +106,43 @@ def driver_with_base_url(authenticated_driver, base_url):
     return authenticated_driver
 
 
-@pytest.fixture
-def product_types_page_ready(authenticated_driver):
-    """
-    Provides a WebDriver instance that is:
-    1. Already authenticated
-    2. Ready to run tests on the Product Types page
-    """
-    driver = authenticated_driver
-    wait = WebDriverWait(driver, 10)
+# Add this fixture to your existing conftest.py file
 
-    # Return the authenticated driver for the test to use
-    return driver
+@pytest.fixture(scope="function")
+def product_types_page_ready(authenticated_driver):
+    """OPTIMIZED product types page setup"""
+    from pages.home_page import HomePage
+
+    try:
+        home_page = HomePage(authenticated_driver)
+
+        print("🏷️ Quick product types page setup...")
+
+        # Fast direct navigation to product types page
+        authenticated_driver.get("http://localhost/#/pages/catalogue/types/types-list")
+
+        # Quick verification with shorter timeout
+        from selenium.webdriver.support.ui import WebDriverWait
+        from selenium.webdriver.support import expected_conditions as EC
+        from selenium.webdriver.common.by import By
+
+        try:
+            wait = WebDriverWait(authenticated_driver, 5)  # 5 seconds timeout
+            wait.until(
+                EC.any_of(
+                    EC.presence_of_element_located((By.CSS_SELECTOR, "input[placeholder='Code']")),
+                    EC.presence_of_element_located((By.CSS_SELECTOR, "a.createBtn"))
+                )
+            )
+            print("✓ Product types page ready")
+        except:
+            print("⚠ Product types page verification timeout (5s), continuing...")
+
+        return authenticated_driver
+
+    except Exception as e:
+        print(f"❌ Product types page setup failed: {str(e)}")
+        raise
 
 @pytest.fixture(scope="function")
 def products_page_ready(authenticated_driver):

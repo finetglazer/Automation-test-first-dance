@@ -1,0 +1,641 @@
+PAGE INFO:
+==========
+Page Name: List of product groups
+URL: http://localhost/#/pages/catalogue/products-groups/groups-list
+
+HTML SOURCE:
+============
+
+<div _ngcontent-njf-c27="" class="inner_pages_legacy">
+  <nb-card-header _ngcontent-njf-c27="" class="main_header">
+    <h1 _ngcontent-njf-c27="" class="page_title">List of product options / property</h1>
+    <div _ngcontent-njf-c27="" class="content_spacing_empty"></div>
+  </nb-card-header>
+  <form _ngcontent-njf-c27="" class="form-inline filter_section ng-untouched ng-pristine ng-valid" novalidate="">
+    <div _ngcontent-njf-c27="" class="filter_left_section"></div>
+    <div _ngcontent-njf-c27="" class="filter_right_section">
+      <ngx-store-autocomplete _ngcontent-njf-c27="" _nghost-njf-c17="">
+        <p-autocomplete _ngcontent-njf-c17="" class="autoStore ng-tns-c20-47 ng-pristine ng-valid ng-star-inserted ng-touched" name="merchant">
+          <span class="ng-tns-c20-47 ui-autocomplete ui-widget ui-autocomplete-dd">
+            <!---->
+            <input aria-autocomplete="list" aria-haspopup="true" role="combobox" class="ng-tns-c20-47 ui-inputtext ui-widget ui-state-default ui-corner-all ui-autocomplete-input ng-star-inserted" type="text" autocomplete="off" name="merchant" aria-expanded="false" aria-activedescendant="p-highlighted-option" placeholder="Merchant store">
+            <!---->
+            <!---->
+            <!---->
+            <button class="ui-autocomplete-dropdown ng-tns-c20-47 ui-button ui-widget ui-state-default ui-corner-all ui-button-icon-only ng-star-inserted" pbutton="" type="button">
+              <span aria-hidden="true" class="ui-button-icon-left ui-clickable pi pi-caret-down"></span>
+              <span class="ui-button-text ui-clickable">ui-btn</span>
+            </button>
+            <!---->
+          </span>
+        </p-autocomplete>
+      </ngx-store-autocomplete>
+      <a _ngcontent-njf-c27="" class="createBtn" href="#/pages/catalogue/options/create-option">
+        <img _ngcontent-njf-c27="" alt="" class="pointer sda" src="../../../../assets/img/plus.png" title="Create options / property set">
+        <label _ngcontent-njf-c27="">Create option / property</label>
+      </a>
+    </div>
+  </form>
+  <ng2-smart-table _ngcontent-njf-c27="" class="home-table" _nghost-njf-c18="">
+    <table _ngcontent-njf-c18="" id="">
+      <!---->
+      <thead _ngcontent-njf-c18="" ng2-st-thead="" class="ng-star-inserted">
+        <!---->
+        <tr class="ng2-smart-titles ng-star-inserted" ng2-st-thead-titles-row="">
+          <!---->
+          <!---->
+          <!---->
+          <th class="ng2-smart-th id ng-star-inserted">
+            <ng2-st-column-title>
+              <div class="ng2-smart-title">
+                <ng2-smart-table-title _nghost-njf-c25="">
+                  <!---->
+                  <a _ngcontent-njf-c25="" class="ng2-smart-sort-link sort ng-star-inserted" href="#"> ID </a>
+                  <!---->
+                </ng2-smart-table-title>
+              </div>
+            </ng2-st-column-title>
+          </th>
+          <th class="ng2-smart-th descriptions ng-star-inserted">
+            <ng2-st-column-title>
+              <div class="ng2-smart-title">
+                <ng2-smart-table-title _nghost-njf-c25="">
+                  <!---->
+                  <a _ngcontent-njf-c25="" class="ng2-smart-sort-link sort ng-star-inserted" href="#"> Name </a>
+                  <!---->
+                </ng2-smart-table-title>
+              </div>
+            </ng2-st-column-title>
+          </th>
+          <th class="ng2-smart-th type ng-star-inserted">
+            <ng2-st-column-title>
+              <div class="ng2-smart-title">
+                <ng2-smart-table-title _nghost-njf-c25="">
+                  <!---->
+                  <a _ngcontent-njf-c25="" class="ng2-smart-sort-link sort ng-star-inserted" href="#"> Type </a>
+                  <!---->
+                </ng2-smart-table-title>
+              </div>
+            </ng2-st-column-title>
+          </th>
+          <!---->
+          <th ng2-st-actions-title="" class="ng2-smart-actions ng-star-inserted">
+            <div class="ng2-smart-title">Action</div>
+          </th>
+        </tr>
+        <!---->
+        <tr class="ng2-smart-filters ng-star-inserted" ng2-st-thead-filters-row="">
+          <!---->
+          <!---->
+          <!---->
+          <th class="ng2-smart-th id ng-star-inserted">
+            <ng2-smart-table-filter _nghost-njf-c24="">
+              <!---->
+            </ng2-smart-table-filter>
+          </th>
+          <th class="ng2-smart-th descriptions ng-star-inserted">
+            <ng2-smart-table-filter _nghost-njf-c24="">
+              <!---->
+              <div _ngcontent-njf-c24="" class="ng2-smart-filter ng-star-inserted">
+                <!---->
+                <!---->
+                <default-table-filter _ngcontent-njf-c24="" class="ng-star-inserted">
+                  <!---->
+                  <!---->
+                  <!---->
+                  <!---->
+                  <!---->
+                  <input-filter class="ng-star-inserted">
+                    <input class="form-control ng-untouched ng-pristine ng-valid" type="text" placeholder="Name">
+                  </input-filter>
+                </default-table-filter>
+              </div>
+            </ng2-smart-table-filter>
+          </th>
+          <th class="ng2-smart-th type ng-star-inserted">
+            <ng2-smart-table-filter _nghost-njf-c24="">
+              <!---->
+            </ng2-smart-table-filter>
+          </th>
+          <!---->
+          <th ng2-st-add-button="" class="ng2-smart-actions-title ng2-smart-actions-title-add ng-star-inserted">
+            <!---->
+          </th>
+        </tr>
+        <!---->
+      </thead>
+      <tbody _ngcontent-njf-c18="" ng2-st-tbody="" _nghost-njf-c21="">
+        <!---->
+        <tr _ngcontent-njf-c21="" class="ng-star-inserted">
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <td _ngcontent-njf-c21="" class="ng-star-inserted">
+            <ng2-smart-table-cell _ngcontent-njf-c21="">
+              <!---->
+              <table-cell-view-mode class="ng-star-inserted">
+                <div>
+                  <!---->
+                  <!---->
+                  <!---->
+                  <div class="ng-star-inserted">1</div>
+                </div>
+              </table-cell-view-mode>
+              <!---->
+            </ng2-smart-table-cell>
+          </td>
+          <td _ngcontent-njf-c21="" class="ng-star-inserted">
+            <ng2-smart-table-cell _ngcontent-njf-c21="">
+              <!---->
+              <table-cell-view-mode class="ng-star-inserted">
+                <div>
+                  <!---->
+                  <!---->
+                  <div class="ng-star-inserted">sfd</div>
+                  <!---->
+                </div>
+              </table-cell-view-mode>
+              <!---->
+            </ng2-smart-table-cell>
+          </td>
+          <td _ngcontent-njf-c21="" class="ng-star-inserted">
+            <ng2-smart-table-cell _ngcontent-njf-c21="">
+              <!---->
+              <table-cell-view-mode class="ng-star-inserted">
+                <div>
+                  <!---->
+                  <!---->
+                  <!---->
+                  <div class="ng-star-inserted">Text</div>
+                </div>
+              </table-cell-view-mode>
+              <!---->
+            </ng2-smart-table-cell>
+          </td>
+          <!---->
+          <!---->
+          <td _ngcontent-njf-c21="" class="ng2-smart-actions ng-star-inserted">
+            <ng2-st-tbody-custom _ngcontent-njf-c21="">
+              <!---->
+              <a class="ng2-smart-action ng2-smart-action-custom-custom ng-star-inserted" href="#">
+                <i class="nb-edit"></i>
+              </a>
+              <a class="ng2-smart-action ng2-smart-action-custom-custom ng-star-inserted" href="#">
+                <i class="nb-trash"></i>
+              </a>
+            </ng2-st-tbody-custom>
+            <ng2-st-tbody-edit-delete _ngcontent-njf-c21="">
+              <!---->
+              <!---->
+            </ng2-st-tbody-edit-delete>
+          </td>
+        </tr>
+        <tr _ngcontent-njf-c21="" class="ng-star-inserted">
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <td _ngcontent-njf-c21="" class="ng-star-inserted">
+            <ng2-smart-table-cell _ngcontent-njf-c21="">
+              <!---->
+              <table-cell-view-mode class="ng-star-inserted">
+                <div>
+                  <!---->
+                  <!---->
+                  <!---->
+                  <div class="ng-star-inserted">2</div>
+                </div>
+              </table-cell-view-mode>
+              <!---->
+            </ng2-smart-table-cell>
+          </td>
+          <td _ngcontent-njf-c21="" class="ng-star-inserted">
+            <ng2-smart-table-cell _ngcontent-njf-c21="">
+              <!---->
+              <table-cell-view-mode class="ng-star-inserted">
+                <div>
+                  <!---->
+                  <!---->
+                  <div class="ng-star-inserted">213</div>
+                  <!---->
+                </div>
+              </table-cell-view-mode>
+              <!---->
+            </ng2-smart-table-cell>
+          </td>
+          <td _ngcontent-njf-c21="" class="ng-star-inserted">
+            <ng2-smart-table-cell _ngcontent-njf-c21="">
+              <!---->
+              <table-cell-view-mode class="ng-star-inserted">
+                <div>
+                  <!---->
+                  <!---->
+                  <!---->
+                  <div class="ng-star-inserted">Checkbox</div>
+                </div>
+              </table-cell-view-mode>
+              <!---->
+            </ng2-smart-table-cell>
+          </td>
+          <!---->
+          <!---->
+          <td _ngcontent-njf-c21="" class="ng2-smart-actions ng-star-inserted">
+            <ng2-st-tbody-custom _ngcontent-njf-c21="">
+              <!---->
+              <a class="ng2-smart-action ng2-smart-action-custom-custom ng-star-inserted" href="#">
+                <i class="nb-edit"></i>
+              </a>
+              <a class="ng2-smart-action ng2-smart-action-custom-custom ng-star-inserted" href="#">
+                <i class="nb-trash"></i>
+              </a>
+            </ng2-st-tbody-custom>
+            <ng2-st-tbody-edit-delete _ngcontent-njf-c21="">
+              <!---->
+              <!---->
+            </ng2-st-tbody-edit-delete>
+          </td>
+        </tr>
+        <tr _ngcontent-njf-c21="" class="ng-star-inserted">
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <td _ngcontent-njf-c21="" class="ng-star-inserted">
+            <ng2-smart-table-cell _ngcontent-njf-c21="">
+              <!---->
+              <table-cell-view-mode class="ng-star-inserted">
+                <div>
+                  <!---->
+                  <!---->
+                  <!---->
+                  <div class="ng-star-inserted">3</div>
+                </div>
+              </table-cell-view-mode>
+              <!---->
+            </ng2-smart-table-cell>
+          </td>
+          <td _ngcontent-njf-c21="" class="ng-star-inserted">
+            <ng2-smart-table-cell _ngcontent-njf-c21="">
+              <!---->
+              <table-cell-view-mode class="ng-star-inserted">
+                <div>
+                  <!---->
+                  <!---->
+                  <div class="ng-star-inserted">fd</div>
+                  <!---->
+                </div>
+              </table-cell-view-mode>
+              <!---->
+            </ng2-smart-table-cell>
+          </td>
+          <td _ngcontent-njf-c21="" class="ng-star-inserted">
+            <ng2-smart-table-cell _ngcontent-njf-c21="">
+              <!---->
+              <table-cell-view-mode class="ng-star-inserted">
+                <div>
+                  <!---->
+                  <!---->
+                  <!---->
+                  <div class="ng-star-inserted">Text</div>
+                </div>
+              </table-cell-view-mode>
+              <!---->
+            </ng2-smart-table-cell>
+          </td>
+          <!---->
+          <!---->
+          <td _ngcontent-njf-c21="" class="ng2-smart-actions ng-star-inserted">
+            <ng2-st-tbody-custom _ngcontent-njf-c21="">
+              <!---->
+              <a class="ng2-smart-action ng2-smart-action-custom-custom ng-star-inserted" href="#">
+                <i class="nb-edit"></i>
+              </a>
+              <a class="ng2-smart-action ng2-smart-action-custom-custom ng-star-inserted" href="#">
+                <i class="nb-trash"></i>
+              </a>
+            </ng2-st-tbody-custom>
+            <ng2-st-tbody-edit-delete _ngcontent-njf-c21="">
+              <!---->
+              <!---->
+            </ng2-st-tbody-edit-delete>
+          </td>
+        </tr>
+        <tr _ngcontent-njf-c21="" class="ng-star-inserted">
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <td _ngcontent-njf-c21="" class="ng-star-inserted">
+            <ng2-smart-table-cell _ngcontent-njf-c21="">
+              <!---->
+              <table-cell-view-mode class="ng-star-inserted">
+                <div>
+                  <!---->
+                  <!---->
+                  <!---->
+                  <div class="ng-star-inserted">4</div>
+                </div>
+              </table-cell-view-mode>
+              <!---->
+            </ng2-smart-table-cell>
+          </td>
+          <td _ngcontent-njf-c21="" class="ng-star-inserted">
+            <ng2-smart-table-cell _ngcontent-njf-c21="">
+              <!---->
+              <table-cell-view-mode class="ng-star-inserted">
+                <div>
+                  <!---->
+                  <!---->
+                  <div class="ng-star-inserted">343</div>
+                  <!---->
+                </div>
+              </table-cell-view-mode>
+              <!---->
+            </ng2-smart-table-cell>
+          </td>
+          <td _ngcontent-njf-c21="" class="ng-star-inserted">
+            <ng2-smart-table-cell _ngcontent-njf-c21="">
+              <!---->
+              <table-cell-view-mode class="ng-star-inserted">
+                <div>
+                  <!---->
+                  <!---->
+                  <!---->
+                  <div class="ng-star-inserted">Checkbox</div>
+                </div>
+              </table-cell-view-mode>
+              <!---->
+            </ng2-smart-table-cell>
+          </td>
+          <!---->
+          <!---->
+          <td _ngcontent-njf-c21="" class="ng2-smart-actions ng-star-inserted">
+            <ng2-st-tbody-custom _ngcontent-njf-c21="">
+              <!---->
+              <a class="ng2-smart-action ng2-smart-action-custom-custom ng-star-inserted" href="#">
+                <i class="nb-edit"></i>
+              </a>
+              <a class="ng2-smart-action ng2-smart-action-custom-custom ng-star-inserted" href="#">
+                <i class="nb-trash"></i>
+              </a>
+            </ng2-st-tbody-custom>
+            <ng2-st-tbody-edit-delete _ngcontent-njf-c21="">
+              <!---->
+              <!---->
+            </ng2-st-tbody-edit-delete>
+          </td>
+        </tr>
+        <tr _ngcontent-njf-c21="" class="ng-star-inserted">
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <td _ngcontent-njf-c21="" class="ng-star-inserted">
+            <ng2-smart-table-cell _ngcontent-njf-c21="">
+              <!---->
+              <table-cell-view-mode class="ng-star-inserted">
+                <div>
+                  <!---->
+                  <!---->
+                  <!---->
+                  <div class="ng-star-inserted">5</div>
+                </div>
+              </table-cell-view-mode>
+              <!---->
+            </ng2-smart-table-cell>
+          </td>
+          <td _ngcontent-njf-c21="" class="ng-star-inserted">
+            <ng2-smart-table-cell _ngcontent-njf-c21="">
+              <!---->
+              <table-cell-view-mode class="ng-star-inserted">
+                <div>
+                  <!---->
+                  <!---->
+                  <div class="ng-star-inserted">4334</div>
+                  <!---->
+                </div>
+              </table-cell-view-mode>
+              <!---->
+            </ng2-smart-table-cell>
+          </td>
+          <td _ngcontent-njf-c21="" class="ng-star-inserted">
+            <ng2-smart-table-cell _ngcontent-njf-c21="">
+              <!---->
+              <table-cell-view-mode class="ng-star-inserted">
+                <div>
+                  <!---->
+                  <!---->
+                  <!---->
+                  <div class="ng-star-inserted">Checkbox</div>
+                </div>
+              </table-cell-view-mode>
+              <!---->
+            </ng2-smart-table-cell>
+          </td>
+          <!---->
+          <!---->
+          <td _ngcontent-njf-c21="" class="ng2-smart-actions ng-star-inserted">
+            <ng2-st-tbody-custom _ngcontent-njf-c21="">
+              <!---->
+              <a class="ng2-smart-action ng2-smart-action-custom-custom ng-star-inserted" href="#">
+                <i class="nb-edit"></i>
+              </a>
+              <a class="ng2-smart-action ng2-smart-action-custom-custom ng-star-inserted" href="#">
+                <i class="nb-trash"></i>
+              </a>
+            </ng2-st-tbody-custom>
+            <ng2-st-tbody-edit-delete _ngcontent-njf-c21="">
+              <!---->
+              <!---->
+            </ng2-st-tbody-edit-delete>
+          </td>
+        </tr>
+        <tr _ngcontent-njf-c21="" class="ng-star-inserted">
+          <!---->
+          <!---->
+          <!---->
+          <!---->
+          <td _ngcontent-njf-c21="" class="ng-star-inserted">
+            <ng2-smart-table-cell _ngcontent-njf-c21="">
+              <!---->
+              <table-cell-view-mode class="ng-star-inserted">
+                <div>
+                  <!---->
+                  <!---->
+                  <!---->
+                  <div class="ng-star-inserted">6</div>
+                </div>
+              </table-cell-view-mode>
+              <!---->
+            </ng2-smart-table-cell>
+          </td>
+          <td _ngcontent-njf-c21="" class="ng-star-inserted">
+            <ng2-smart-table-cell _ngcontent-njf-c21="">
+              <!---->
+              <table-cell-view-mode class="ng-star-inserted">
+                <div>
+                  <!---->
+                  <!---->
+                  <div class="ng-star-inserted">213</div>
+                  <!---->
+                </div>
+              </table-cell-view-mode>
+              <!---->
+            </ng2-smart-table-cell>
+          </td>
+          <td _ngcontent-njf-c21="" class="ng-star-inserted">
+            <ng2-smart-table-cell _ngcontent-njf-c21="">
+              <!---->
+              <table-cell-view-mode class="ng-star-inserted">
+                <div>
+                  <!---->
+                  <!---->
+                  <!---->
+                  <div class="ng-star-inserted">Checkbox</div>
+                </div>
+              </table-cell-view-mode>
+              <!---->
+            </ng2-smart-table-cell>
+          </td>
+          <!---->
+          <!---->
+          <td _ngcontent-njf-c21="" class="ng2-smart-actions ng-star-inserted">
+            <ng2-st-tbody-custom _ngcontent-njf-c21="">
+              <!---->
+              <a class="ng2-smart-action ng2-smart-action-custom-custom ng-star-inserted" href="#">
+                <i class="nb-edit"></i>
+              </a>
+              <a class="ng2-smart-action ng2-smart-action-custom-custom ng-star-inserted" href="#">
+                <i class="nb-trash"></i>
+              </a>
+            </ng2-st-tbody-custom>
+            <ng2-st-tbody-edit-delete _ngcontent-njf-c21="">
+              <!---->
+              <!---->
+            </ng2-st-tbody-edit-delete>
+          </td>
+        </tr>
+        <!---->
+      </tbody>
+    </table>
+    <!---->
+  </ng2-smart-table>
+  <ngx-paginator _ngcontent-njf-c27="" _nghost-njf-c19="">
+    <!---->
+    <div _ngcontent-njf-c19="" class="pagination ng-star-inserted">
+      <div _ngcontent-njf-c19="" class="description">
+        <span _ngcontent-njf-c19="" class="page-counts">1 - 6 of 6</span>
+      </div>
+      <div _ngcontent-njf-c19="" class="numbers">
+        <button _ngcontent-njf-c19="" class="link disabled" disabled=""> &lt;&lt; </button>
+        <button _ngcontent-njf-c19="" class="link disabled" disabled=""> &lt; </button>
+        <!---->
+        <button _ngcontent-njf-c19="" class="active ng-star-inserted">1</button>
+        <button _ngcontent-njf-c19="" class="link disabled" disabled=""> &gt; </button>
+        <button _ngcontent-njf-c19="" class="link disabled" disabled=""> &gt;&gt; </button>
+      </div>
+    </div>
+  </ngx-paginator>
+</div>
+
+TEST SCENARIOS:
+===============
+1. Submit special character into the field Code name
+
+"Step 1: We fill the Code name field
+Step 2: We click Window + V
+Step 3: We insert special character like 🥶🥶
+Step 4: Then, deleting above emoji, inserting '<', '+',..."
+
+Expected result: The table list still displays the special characters and the table shows nothing
+
+
+2. Submit valid text for existing Code name
+
+"Step 1: We fill the Code name field
+Step 2: We fill one character in existed data"
+
+Expected result: The table list displays the data which contains that character
+
+
+3. Submit text not existing for testing displaying nothing
+"Step 1: We fill the Code name field
+Step 2: We fill one character not existed data"
+
+Expected res: The table list displays no data found
+
+
+
+4. Submit text with space at the beginning or ending
+
+Step 1: We fill space first
+Step 2: We fill the valid text next
+Step 3: Deleting the space at the begging
+Step 4: Add the space at the end of the text"
+
+Expected res: The table list displays the data which contains that character
+
+5. Submit SQL/NoSQL injection, XSS attempts (<script>alert('test')</script>), HTML injection (<h1>test</h1>) to test security
+
+Expected res: Avoiding showing the data
+
+
+7.Submit large value to test the large field
+"Step 1: We fill the large text into Code name field
+
+Expected res: The table displays nothing, the text field still displays the part of the data
+
+
+7.Submit large value to test the large field
+"Step 1: We fill the large text into category name field
+
+Expected res: The table displays nothing, the text field still displays the part of the data
+
+8. Testing field visible when toggle
+"Step 1: We click into the toggle field when it is empty
+Step 2: After it is clicked, we click it again"
+
+Expected res: "The toggle shows ✅ at the first click, and show 🟦
+At the same time showing the ✅, a notification will be displayed"
+
+
+9. Testing sorting function ascending when click on each field column
+Step 1: Clicking into the fields one time orderly
+Expected res: The table list shows all ascending data corresponding with that field
+
+
+10. Testing sorting function descending when click on each field
+Step 1: Clicking into the fields orderly 2 times
+Expected res: The table list shows all data with the corresponding sorting field
+
+
+11. Testing sorting function default after excluding sorting function when click on each field
+Step 1: After clicking sorting, excluding the sorting
+Expected res: The table list shows all data with the default order
+
+
+12. Testing sorting table when sorting more than 2 fields (All two cases: asc, des)
+"Step 1: Clicking one field for sorting by that field
+Step 2: Clicking another field for sorting by 2 fields"
+Expected res: The table list shows all data sorting by 2 fields orderly
+
+
+13. Testing sorting function (both asc, and des) after submitting some existing character
+"Step 1: Filling in existed char in the field for filtering first
+Step 2: We click each field for sorting (asc, des) orderly"
+Expected res: The page shows the list of data containing that character with the order sorting by the field
+
+
+14. Testing sorting function (both asc, and des) before submitting some existing character
+"Step 1: Clicking each field for sorting (asc, des) orderly
+Step 2: Filling in existed char in the field for filtering"
+Expected res: The page shows the list of data containing that character with the order sorting by the field
+
+
+15. Testing state after reseting
+"Step 1: Adding the text field the existed data but must excluding some data for explicit viewing
+Step 2: Adding filter for one fields
+Step 3: Resetting the page"
+
+Expected res: The page return the default table list

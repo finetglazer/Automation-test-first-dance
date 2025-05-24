@@ -1,7 +1,7 @@
 PAGE INFO:
 ==========
-Page Name: List of product groups
-URL: http://localhost/#/pages/catalogue/products-groups/groups-list
+Page Name: List of product options/property
+URL: http://localhost/#/pages/catalogue/options/options-list
 
 HTML SOURCE:
 ============
@@ -541,9 +541,9 @@ HTML SOURCE:
 
 TEST SCENARIOS:
 ===============
-1. Submit special character into the field Code name
+1. Submit special character into the field Name
 
-"Step 1: We fill the Code name field
+"Step 1: We fill the Name field
 Step 2: We click Window + V
 Step 3: We insert special character like 🥶🥶
 Step 4: Then, deleting above emoji, inserting '<', '+',..."
@@ -551,16 +551,16 @@ Step 4: Then, deleting above emoji, inserting '<', '+',..."
 Expected result: The table list still displays the special characters and the table shows nothing
 
 
-2. Submit valid text for existing Code name
+2. Submit valid text for existing Name field
 
-"Step 1: We fill the Code name field
+"Step 1: We fill the Name field
 Step 2: We fill one character in existed data"
 
 Expected result: The table list displays the data which contains that character
 
 
 3. Submit text not existing for testing displaying nothing
-"Step 1: We fill the Code name field
+"Step 1: We fill the Name field
 Step 2: We fill one character not existed data"
 
 Expected res: The table list displays no data found
@@ -582,13 +582,13 @@ Expected res: Avoiding showing the data
 
 
 7.Submit large value to test the large field
-"Step 1: We fill the large text into Code name field
+"Step 1: We fill the large text into Name field
 
 Expected res: The table displays nothing, the text field still displays the part of the data
 
 
 7.Submit large value to test the large field
-"Step 1: We fill the large text into category name field
+"Step 1: We fill the large text into Name field
 
 Expected res: The table displays nothing, the text field still displays the part of the data
 
@@ -639,3 +639,10 @@ Step 2: Adding filter for one fields
 Step 3: Resetting the page"
 
 Expected res: The page return the default table list
+
+16. Testing the drop down list Merchant store
+"Step 1: Clicking into the drop down list
+Step 2: Selecting one of the store
+Step 3: Clicking the drop down list again
+Step 4: Selecting another store"
+Expected res: The page shows the list of data corresponding with that store

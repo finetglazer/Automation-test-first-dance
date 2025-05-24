@@ -307,6 +307,129 @@ def product_groups_page_ready(authenticated_driver):
         print(f"❌ Product groups page setup failed: {str(e)}")
         raise
 
+# Add this fixture to your existing conftest.py file
+
+@pytest.fixture(scope="function")
+def brands_page_ready(authenticated_driver):
+    """OPTIMIZED brands page setup"""
+    from pages.home_page import HomePage
+
+    try:
+        home_page = HomePage(authenticated_driver)
+
+        print("🏷️ Quick brands page setup...")
+
+        # Fast direct navigation to brands page
+        # Note: You may need to adjust this URL based on your actual routing
+        authenticated_driver.get("http://localhost/#/pages/catalogue/brands/brands-list")
+
+        # Quick verification with shorter timeout
+        from selenium.webdriver.support.ui import WebDriverWait
+        from selenium.webdriver.support import expected_conditions as EC
+        from selenium.webdriver.common.by import By
+
+        try:
+            wait = WebDriverWait(authenticated_driver, 5)  # 5 seconds timeout
+            wait.until(
+                EC.any_of(
+                    EC.presence_of_element_located((By.CSS_SELECTOR, "input.search.form-control")),
+                    EC.presence_of_element_located((By.CSS_SELECTOR, "input[placeholder='Brand name']")),
+                    EC.presence_of_element_located((By.CSS_SELECTOR, "input[placeholder='Code']"))
+                )
+            )
+            print("✓ Brands page ready")
+        except:
+            print("⚠ Brands page verification timeout (5s), continuing...")
+
+        return authenticated_driver
+
+    except Exception as e:
+        print(f"❌ Brands page setup failed: {str(e)}")
+        raise
+
+# Add this fixture to your existing conftest.py file
+# Insert this after the other page fixtures (around line 180)
+
+@pytest.fixture(scope="function")
+def options_set_page_ready(authenticated_driver):
+    """OPTIMIZED options set page setup"""
+    from pages.home_page import HomePage
+
+    try:
+        home_page = HomePage(authenticated_driver)
+
+        print("⚙️ Quick options set page setup...")
+
+        # Fast direct navigation to options set page
+        authenticated_driver.get("http://localhost/#/pages/catalogue/options/options-set-list")
+
+        # Quick verification with shorter timeout
+        from selenium.webdriver.support.ui import WebDriverWait
+        from selenium.webdriver.support import expected_conditions as EC
+        from selenium.webdriver.common.by import By
+
+        try:
+            wait = WebDriverWait(authenticated_driver, 5)  # 5 seconds timeout
+            wait.until(
+                EC.any_of(
+                    EC.presence_of_element_located((By.CSS_SELECTOR, "a.createBtn")),
+                    EC.presence_of_element_located((By.CSS_SELECTOR, "th.ng2-smart-th.id a")),
+                    EC.presence_of_element_located((By.CSS_SELECTOR, "h1.page_title"))
+                )
+            )
+            print("✓ Options set page ready")
+        except:
+            print("⚠ Options set page verification timeout (5s), continuing...")
+
+        return authenticated_driver
+
+    except Exception as e:
+        print(f"❌ Options set page setup failed: {str(e)}")
+        raise
+
+# Also update the pages/__init__.py file to include the new page class
+# Add this line to pages/__init__.py:
+
+# from .options_set_page import OptionsSetPage
+
+# And add 'OptionsSetPage' to the __all__ list
+
+@pytest.fixture(scope="function")
+def product_options_page_ready(authenticated_driver):
+    """OPTIMIZED product options page setup"""
+    from pages.home_page import HomePage
+
+    try:
+        home_page = HomePage(authenticated_driver)
+
+        print("🔧 Quick product options page setup...")
+
+        # Fast direct navigation to product options page
+        authenticated_driver.get("http://localhost/#/pages/catalogue/options/options-list")
+
+        # Quick verification with shorter timeout
+        from selenium.webdriver.support.ui import WebDriverWait
+        from selenium.webdriver.support import expected_conditions as EC
+        from selenium.webdriver.common.by import By
+
+        try:
+            wait = WebDriverWait(authenticated_driver, 5)  # 5 seconds timeout
+            wait.until(
+                EC.any_of(
+                    EC.presence_of_element_located((By.CSS_SELECTOR, "input[placeholder='Name']")),
+                    EC.presence_of_element_located((By.CSS_SELECTOR, "a.createBtn"))
+                )
+            )
+            print("✓ Product options page ready")
+        except:
+            print("⚠ Product options page verification timeout (5s), continuing...")
+
+        return authenticated_driver
+
+    except Exception as e:
+        print(f"❌ Product options page setup failed: {str(e)}")
+        raise
+
 
 # Run setup when conftest is loaded
 setup_test_environment()

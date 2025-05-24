@@ -1,7 +1,7 @@
 PAGE INFO:
 ==========
-Page Name: List of product groups
-URL: http://localhost/#/pages/catalogue/products-groups/groups-list
+Page Name: Options set / property set
+URL: http://localhost/#/pages/catalogue/options/options-set-list
 
 HTML SOURCE:
 ============
@@ -475,64 +475,6 @@ HTML SOURCE:
 
 TEST SCENARIOS:
 ===============
-1. Submit special character into the field Code name
-
-"Step 1: We fill the Code name field
-Step 2: We click Window + V
-Step 3: We insert special character like 🥶🥶
-Step 4: Then, deleting above emoji, inserting '<', '+',..."
-
-Expected result: The table list still displays the special characters and the table shows nothing
-
-
-2. Submit valid text for existing Code name
-
-"Step 1: We fill the Code name field
-Step 2: We fill one character in existed data"
-
-Expected result: The table list displays the data which contains that character
-
-
-3. Submit text not existing for testing displaying nothing
-"Step 1: We fill the Code name field
-Step 2: We fill one character not existed data"
-
-Expected res: The table list displays no data found
-
-
-
-4. Submit text with space at the beginning or ending
-
-Step 1: We fill space first
-Step 2: We fill the valid text next
-Step 3: Deleting the space at the begging
-Step 4: Add the space at the end of the text"
-
-Expected res: The table list displays the data which contains that character
-
-5. Submit SQL/NoSQL injection, XSS attempts (<script>alert('test')</script>), HTML injection (<h1>test</h1>) to test security
-
-Expected res: Avoiding showing the data
-
-
-7.Submit large value to test the large field
-"Step 1: We fill the large text into Code name field
-
-Expected res: The table displays nothing, the text field still displays the part of the data
-
-
-7.Submit large value to test the large field
-"Step 1: We fill the large text into category name field
-
-Expected res: The table displays nothing, the text field still displays the part of the data
-
-8. Testing field visible when toggle
-"Step 1: We click into the toggle field when it is empty
-Step 2: After it is clicked, we click it again"
-
-Expected res: "The toggle shows ✅ at the first click, and show 🟦
-At the same time showing the ✅, a notification will be displayed"
-
 
 9. Testing sorting function ascending when click on each field column
 Step 1: Clicking into the fields one time orderly
